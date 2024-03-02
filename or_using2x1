@@ -1,0 +1,35 @@
+//Design Code
+module mux2x1(output out,input s1,in1,in0);
+  assign out=(~s1&in1)|(s1&in0);
+endmodule
+//implementation
+module mux_or(output out,input s,a,b);
+  mux2x1 a1(out,b,a,1);
+endmodule
+
+//Test Bench Code
+module test();
+  reg s,a,b;
+  wire out;
+  mux_or DUT(out,s,a,b);
+  integer i;
+  initial
+    begin
+      for(i=0;i<8;i=i+1)
+      begin
+        {s,a,b}=i;
+        #10;
+      end
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+  initial
+    begin
+      $monitor("s=%b,a=%d,b=%b,out=%b",s,a,b,out);
+    end
+endmodule
+      
+      
